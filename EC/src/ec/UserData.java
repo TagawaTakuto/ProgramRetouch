@@ -10,10 +10,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import beans.BuyDataBeans;
-import beans.ItemDataBeans;
 import beans.UserDataBeans;
 import dao.BuyDAO;
-import dao.ItemDAO;
 import dao.UserDAO;
 
 /**
@@ -44,13 +42,11 @@ public class UserData extends HttpServlet {
 			request.setAttribute("udb", udb);
 
 			BuyDAO buydao = new BuyDAO();
-			BuyDataBeans buyhis = buydao.Buyhis(userId);
-			request.setAttribute("buyhis", buyhis);
+			BuyDataBeans buyhis1 = buydao.getBuyNew1();
+			request.setAttribute("buyhis1", buyhis1);
 
-//			ItemDAO itemdao = new ItemDAO();
-//			ItemDataBeans itemhis = itemdao.itemhis(buyhis.getId());
-//			request.setAttribute("itemhis", itemhis);
-
+			BuyDataBeans buyhis2 = buydao.getBuyNew2();
+			request.setAttribute("buyhis2", buyhis2);
 
 			request.getRequestDispatcher(EcHelper.USER_DATA_PAGE).forward(request, response);
 

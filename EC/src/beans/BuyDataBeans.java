@@ -21,6 +21,7 @@ public class BuyDataBeans  implements Serializable {
 	private int deliveryMethodPrice;
 
 
+
 	public int getId() {
 		return id;
 	}
@@ -71,5 +72,24 @@ public class BuyDataBeans  implements Serializable {
 		this.deliveryMethodPrice = deliveryMethodPrice;
 	}
 
+	//購入履歴コンストラクタ
+//	public BuyDataBeans(int totalPrice, Date buyDate, String dName, int id) {
+//		this.totalPrice = totalPrice;
+//		this.buyDate = buyDate;
+//		this.deliveryMethodName = dName;
+//		this.id = id;
+//
+//
+//	}
+//	public BuyDataBeans(int id, int totalPrice ,Date buyDate , int delivertMethodId ,int userId ,
+//		int deliveryMethodPrice, String deliveryMethodName) {
+//		this.id = id;
+//		this.totalPrice = totalPrice;
+//		this.buyDate = buyDate;
+//		this.delivertMethodId = delivertMethodId;
+//		this.userId = userId;
+//		this.deliveryMethodPrice = deliveryMethodPrice;
+//		this.deliveryMethodName = deliveryMethodName;
+//	}
 
 }

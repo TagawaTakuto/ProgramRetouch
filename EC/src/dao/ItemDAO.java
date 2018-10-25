@@ -179,25 +179,36 @@ public class ItemDAO {
 		}
 	}
 
-	//購入履歴
-	public static ItemDataBeans itemhis(int Id) throws SQLException {
+	//購入詳細
+	public ItemDataBeans getItemData(int BuyId) throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
 			con = DBManager.getConnection();
 
-			st = con.prepareStatement("SELECT * FROM m_item WHERE id = ?");
-			st.setInt(1, Id);
+			st = con.prepareStatement(
+					"SELECT * FROM t_buy"
+							+ " JOIN t_buy_detail "
+							+ " ON t_buy.id = t_buy_detail.buy_id"
+							+ " JOIN m_item"
+							+ " ON t_buy_detail.item_id = m_item.id"
+							+ " ORDER BY t_buy.id DESC LIMIT ? ,1");
+			int ID = BuyId - 1;
+			st.setInt(1,ID);
 
 			ResultSet rs = st.executeQuery();
+			System.out.println(rs);
 
 			ItemDataBeans item = new ItemDataBeans();
-			if (rs.next()) {
+				if (rs.next()) {
+				item.setId(rs.getInt("id"));
 				item.setName(rs.getString("name"));
+				item.setDetail(rs.getString("detail"));
 				item.setPrice(rs.getInt("price"));
+				item.setFileName(rs.getString("file_name"));
 			}
 
-			//System.out.println("searching item by itemID has been completed");
+			System.out.println("searching item by itemID has been completed");
 
 			return item;
 		} catch (SQLException e) {

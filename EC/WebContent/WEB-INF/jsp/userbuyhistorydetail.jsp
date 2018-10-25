@@ -29,7 +29,7 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td class="center">1234年56月78日90時12分</td>
+									<td class="center">${BuyData.formatDate}</td>
 									<td class="center">サンプル</td>
 									<td class="center">123456789円</td>
 								</tr>
@@ -53,8 +53,8 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td class="center">サンプル商品名1</td>
-									<td class="center">111111111円</td>
+									<td class="center">${itemData.name }</td>
+									<td class="center">${itemData.price}円</td>
 								</tr>
 								<tr>
 									<td class="center">サンプル商品名2</td>

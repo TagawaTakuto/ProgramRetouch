@@ -105,7 +105,7 @@ public class BuyDAO {
 	}
 
 	//購入履歴
-	public BuyDataBeans Buyhis(int UserId) throws SQLException {
+	public  BuyDataBeans getBuyNew1() throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
@@ -113,10 +113,10 @@ public class BuyDAO {
 
 			st = con.prepareStatement(
 					"SELECT * FROM t_buy"
-							+ " JOIN t_buy_detail"
-							+ " ON t_buy.id = t_buy_detail.buy_id"
-							+ " WHERE t_buy.user_id = ?");
-			st.setInt(1, UserId);
+							+ " JOIN m_delivery_method"
+							+ " ON t_buy.delivery_method_id = m_delivery_method.id"
+							+ " ORDER BY t_buy.id DESC");
+			//st.setInt(1, buyId);
 
 			System.out.println(st);
 
@@ -124,12 +124,54 @@ public class BuyDAO {
 
 			BuyDataBeans bdb = new BuyDataBeans();
 			if (rs.next()) {
-
+				bdb.setId(rs.getInt("id"));
 				bdb.setTotalPrice(rs.getInt("total_price"));
 				bdb.setBuyDate(rs.getTimestamp("create_date"));
-				bdb.setDeliveryMethodName(rs.getString("delivery_method_id"));
-				bdb.setId(rs.getInt("item_id"));//ItemId
+				bdb.setDelivertMethodId(rs.getInt("delivery_method_id"));
+				bdb.setUserId(rs.getInt("user_id"));
+				bdb.setDeliveryMethodPrice(rs.getInt("price"));
+				bdb.setDeliveryMethodName(rs.getString("name"));
+			}
 
+			System.out.println("searching BuyDataBeans by buyID has been completed");
+
+			return bdb;
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+			throw new SQLException(e);
+		} finally {
+			if (con != null) {
+				con.close();
+			}
+		}
+	}
+
+	public BuyDataBeans getBuyNew2() throws SQLException {
+		Connection con = null;
+		PreparedStatement st = null;
+		try {
+			con = DBManager.getConnection();
+
+			st = con.prepareStatement(
+					"SELECT * FROM t_buy"
+							+ " JOIN m_delivery_method"
+							+ " ON t_buy.delivery_method_id = m_delivery_method.id"
+							+ " ORDER BY t_buy.id DESC LIMIT 1,1");
+			//st.setInt(1, buyId);
+
+			System.out.println(st);
+
+			ResultSet rs = st.executeQuery();
+
+			BuyDataBeans bdb = new BuyDataBeans();
+			if (rs.next()) {
+				bdb.setId(rs.getInt("id"));
+				bdb.setTotalPrice(rs.getInt("total_price"));
+				bdb.setBuyDate(rs.getTimestamp("create_date"));
+				bdb.setDelivertMethodId(rs.getInt("delivery_method_id"));
+				bdb.setUserId(rs.getInt("user_id"));
+				bdb.setDeliveryMethodPrice(rs.getInt("price"));
+				bdb.setDeliveryMethodName(rs.getString("name"));
 			}
 
 			System.out.println("searching BuyDataBeans by buyID has been completed");
