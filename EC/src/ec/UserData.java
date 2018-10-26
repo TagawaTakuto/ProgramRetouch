@@ -1,6 +1,7 @@
 package ec;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -42,11 +43,8 @@ public class UserData extends HttpServlet {
 			request.setAttribute("udb", udb);
 
 			BuyDAO buydao = new BuyDAO();
-			BuyDataBeans buyhis1 = buydao.getBuyNew1();
-			request.setAttribute("buyhis1", buyhis1);
-
-			BuyDataBeans buyhis2 = buydao.getBuyNew2();
-			request.setAttribute("buyhis2", buyhis2);
+			List<BuyDataBeans> buyhis = buydao.getBuyNew();
+			request.setAttribute("buyhis", buyhis);
 
 			request.getRequestDispatcher(EcHelper.USER_DATA_PAGE).forward(request, response);
 

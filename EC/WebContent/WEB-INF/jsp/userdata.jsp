@@ -62,20 +62,14 @@
 								</tr>
 							</thead>
 							<tbody>
-
-								<tr>
-									<td class="center"><a href="UserBuyHistoryDetail?buy_id=1" class="btn-floating btn waves-effect waves-light "> <i class="material-icons">details</i></a></td>
-									<td class="center">${buyhis1.getFormatDate()}</td>
-									<td class="center">${buyhis1.deliveryMethodName}</td>
-									<td class="center">${buyhis1.totalPrice}円</td>
-								</tr>
-								<tr>
-									<td class="center"><a href="UserBuyHistoryDetail?buy_id=2" class="btn-floating btn waves-effect waves-light "> <i class="material-icons">details</i></a></td>
-									<td class="center">${buyhis2.getFormatDate()}</td>
-									<td class="center">${buyhis2.deliveryMethodName}</td>
-									<td class="center">${buyhis2.totalPrice}円</td>
-								</tr>
-
+								<c:forEach var="buyhis" items="${buyhis}" >
+									<tr>
+										<td class="center"><a href="UserBuyHistoryDetail?buy_id=${buyhis.id}" class="btn-floating btn waves-effect waves-light "> <i class="material-icons">details</i></a></td>
+										<td class="center">${buyhis.getFormatDate()}</td>
+										<td class="center">${buyhis.deliveryMethodName}</td>
+										<td class="center">${buyhis.totalPrice}円</td>
+									</tr>
+								</c:forEach>
 							</tbody>
 						</table>
 					</div>

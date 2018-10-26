@@ -180,9 +180,10 @@ public class ItemDAO {
 	}
 
 	//購入詳細
-	public ItemDataBeans getItemData(int BuyId) throws SQLException {
+	public ArrayList<ItemDataBeans> getItemData(int BuyId) throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
+		ArrayList<ItemDataBeans> itemlist = new ArrayList<ItemDataBeans>();
 		try {
 			con = DBManager.getConnection();
 
@@ -192,25 +193,28 @@ public class ItemDAO {
 							+ " ON t_buy.id = t_buy_detail.buy_id"
 							+ " JOIN m_item"
 							+ " ON t_buy_detail.item_id = m_item.id"
-							+ " ORDER BY t_buy.id DESC LIMIT ? ,1");
-			int ID = BuyId - 1;
-			st.setInt(1,ID);
+							+ " WHERE t_buy.id = ?"
+							+ " ORDER BY t_buy.id DESC LIMIT 3");
+			st.setInt(1, BuyId);
 
 			ResultSet rs = st.executeQuery();
 			System.out.println(rs);
 
-			ItemDataBeans item = new ItemDataBeans();
-				if (rs.next()) {
+			while (rs.next()) {
+				ItemDataBeans item = new ItemDataBeans();
 				item.setId(rs.getInt("id"));
 				item.setName(rs.getString("name"));
 				item.setDetail(rs.getString("detail"));
 				item.setPrice(rs.getInt("price"));
 				item.setFileName(rs.getString("file_name"));
+
+				itemlist.add(item);
+
 			}
 
 			System.out.println("searching item by itemID has been completed");
 
-			return item;
+			return itemlist;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			throw new SQLException(e);

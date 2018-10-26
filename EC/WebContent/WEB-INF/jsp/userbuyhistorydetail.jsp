@@ -1,4 +1,5 @@
 <%@	page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,8 +31,8 @@
 							<tbody>
 								<tr>
 									<td class="center">${BuyData.formatDate}</td>
-									<td class="center">サンプル</td>
-									<td class="center">123456789円</td>
+									<td class="center">${BuyData.deliveryMethodName}</td>
+									<td class="center">${BuyData.totalPrice}円</td>
 								</tr>
 							</tbody>
 						</table>
@@ -53,20 +54,24 @@
 							</thead>
 							<tbody>
 								<tr>
-									<td class="center">${itemData.name }</td>
-									<td class="center">${itemData.price}円</td>
+									<td class="center">${itemData[0].name}</td>
+									<td class="center">${itemData[0].price}円</td>
 								</tr>
+							<c:if test = "${itemData[1].name != null}">
 								<tr>
-									<td class="center">サンプル商品名2</td>
-									<td class="center">222222222円</td>
+									<td class="center">${itemData[1].name}</td>
+									<td class="center">${itemData[1].price}円</td>
 								</tr>
+							</c:if>
+							<c:if test = "${itemData[2].name != null}">
 								<tr>
-									<td class="center">サンプル商品名3</td>
-									<td class="center">333333333円</td>
+									<td class="center">${itemData[2].name}</td>
+									<td class="center">${itemData[2].price}円</td>
 								</tr>
+							</c:if>
 								<tr>
-									<td class="center">サンプル</td>
-									<td class="center">123456789円</td>
+									<td class="center">${BuyData.deliveryMethodName}</td>
+									<td class="center">${BuyData.deliveryMethodPrice}円</td>
 								</tr>
 							</tbody>
 						</table>

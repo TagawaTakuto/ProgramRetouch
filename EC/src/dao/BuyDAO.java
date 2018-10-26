@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import base.DBManager;
 import beans.BuyDataBeans;
@@ -105,25 +107,25 @@ public class BuyDAO {
 	}
 
 	//購入履歴
-	public  BuyDataBeans getBuyNew1() throws SQLException {
+	public  List<BuyDataBeans> getBuyNew() throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
 			con = DBManager.getConnection();
-
+			List<BuyDataBeans> buylist = new ArrayList<BuyDataBeans>();
 			st = con.prepareStatement(
 					"SELECT * FROM t_buy"
 							+ " JOIN m_delivery_method"
 							+ " ON t_buy.delivery_method_id = m_delivery_method.id"
 							+ " ORDER BY t_buy.id DESC");
-			//st.setInt(1, buyId);
 
 			System.out.println(st);
 
 			ResultSet rs = st.executeQuery();
 
-			BuyDataBeans bdb = new BuyDataBeans();
-			if (rs.next()) {
+
+			while (rs.next()) {
+				BuyDataBeans bdb = new BuyDataBeans();
 				bdb.setId(rs.getInt("id"));
 				bdb.setTotalPrice(rs.getInt("total_price"));
 				bdb.setBuyDate(rs.getTimestamp("create_date"));
@@ -131,11 +133,12 @@ public class BuyDAO {
 				bdb.setUserId(rs.getInt("user_id"));
 				bdb.setDeliveryMethodPrice(rs.getInt("price"));
 				bdb.setDeliveryMethodName(rs.getString("name"));
+				buylist.add(bdb);
 			}
 
 			System.out.println("searching BuyDataBeans by buyID has been completed");
 
-			return bdb;
+			return buylist;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 			throw new SQLException(e);
@@ -146,7 +149,8 @@ public class BuyDAO {
 		}
 	}
 
-	public BuyDataBeans getBuyNew2() throws SQLException {
+	//購入詳細
+	public BuyDataBeans getBuyData() throws SQLException {
 		Connection con = null;
 		PreparedStatement st = null;
 		try {
@@ -156,8 +160,7 @@ public class BuyDAO {
 					"SELECT * FROM t_buy"
 							+ " JOIN m_delivery_method"
 							+ " ON t_buy.delivery_method_id = m_delivery_method.id"
-							+ " ORDER BY t_buy.id DESC LIMIT 1,1");
-			//st.setInt(1, buyId);
+							+ " ORDER BY t_buy.id DESC");
 
 			System.out.println(st);
 
